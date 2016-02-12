@@ -11,6 +11,27 @@
         .controls {
             text-align: center;
         }
+
+        #content, #video, #app {
+            height: 576px;
+            width: 720px;
+        }
+
+        #content {
+            position: relative;
+            margin: 2em auto;
+        }
+
+        #video, #app {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #app {
+            z-index: 300000;
+        }
+
         .controls input {
             width: 3em;
             text-align: right;
@@ -18,14 +39,20 @@
     </style>
 </head>
 <body>
-    <div>
-        <div id="app"></div>
-        <div class="controls">
-            <button disabled="disabled">&lt;&lt;</button>
-            <input title="Frame number" type="text" value="1" disabled="disabled"> / <span class="total">???</span>
-            <button disabled="disabled">&gt;&gt;</button>
+<div>
+    <div id="content">
+        <div id="video">
+            <video preload="auto" src="data/saveurspalais.webm"></video>
         </div>
+        <div id="app"></div>
     </div>
-    <script src="assets/bundle.js"></script>
+    <div class="controls">
+        <button name="Previous" disabled="disabled">&lt;&lt;</button>
+        <input title="Frame number" type="number" min="1" disabled="disabled">
+        / <span class="total">???</span>
+        <button name="Next" disabled="disabled">&gt;&gt;</button>
+    </div>
+</div>
+<script src="assets/bundle.js"></script>
 </body>
 </html>
