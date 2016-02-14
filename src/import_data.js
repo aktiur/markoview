@@ -39,9 +39,7 @@ export function import_eyetracking_data(file) {
                         .map((elem) => ((elem === 'NaN' || +elem < 0) ? null : +elem))
                 );
 
-                // every line is wrapped in a an object
-                resolve(parser.parseRows(content, accessor)
-                    .map((row, i) => ({index: i, data: row})));
+                resolve(parser.parseRows(content, accessor));
             }
         });
     });

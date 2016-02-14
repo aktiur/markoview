@@ -24,7 +24,7 @@ import_eyetracking_data('data/Data_saveurpalais_x_y.txt')
         console.log(content);
 
         let current_frame = 1;
-        const total_frames = content[0].data.length;
+        const total_frames = content[0].length;
 
         const controls = new Controls(d3.select('.controls'), total_frames);
         controls.render(current_frame);

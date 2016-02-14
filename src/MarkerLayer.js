@@ -3,7 +3,7 @@
  */
 
 import d3 from 'd3';
-import { radius } from './constants'
+import { radius, color, toggled_color } from './constants'
 
 class MarkerLayer {
     constructor(svg, content) {
@@ -11,14 +11,17 @@ class MarkerLayer {
 
         this.markers_group = svg.append('g');
 
-        this.content = content;
+        // each row has some additional metadata: the index, and a toggled value,
+        // initialized at false
+        this.content = content.map((data, i) => ({data: data, index: i, toggled: false}));
     }
 
     render(frame_number, speed = 200) {
+        const self = this;
         const i = frame_number - 1;
 
         // we get only the current frame data and filter for null values
-        const data = this.content.map(({ index, data }) => ({index, data: data[i]}))
+        const data = this.content.map(({ data, index, toggled }) => ({ data: data[i], index, toggled }))
             .filter(({ data }) => (data !== null));
 
         const markers = this.markers_group.selectAll('circle').data(data, (d) => d.index);
@@ -39,8 +42,13 @@ class MarkerLayer {
                 cx: (d) => d.data[0],
                 cy: (d) => d.data[1],
                 opacity: 0.,
-                fill: 'none',
-                stroke: 'blue'
+                'fill-opacity': 0.,
+                stroke: (d) => (d.toggled ? toggled_color : color)
+            })
+            .on('click', function(d) {
+                const toggled = self.content[d.index].toggled = !self.content[d.index].toggled;
+                console.log('gestionnaire ' + toggled);
+                d3.select(this).attr('stroke', toggled ? toggled_color : color);
             })
             .transition()
             .duration(speed)
