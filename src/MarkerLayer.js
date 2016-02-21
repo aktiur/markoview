@@ -13,25 +13,25 @@ class MarkerLayer {
 
         // each row has some additional metadata: the index, and a toggled value,
         // initialized at false
-        this.content = content.map((data, i) => ({data: data, index: i, toggled: false}));
+        this.content = content.map((data, i) => ({coords: data, index: i, toggled: false}));
     }
 
-    render(frame_number, speed = 200) {
+    render(frame_number, duration = 200) {
         const self = this;
         const i = frame_number - 1;
 
         // we get only the current frame data and filter for null values
-        const data = this.content.map(({ data, index, toggled }) => ({ data: data[i], index, toggled }))
-            .filter(({ data }) => (data !== null));
+        const active_participants = this.content.map(({ coords, index, toggled }) => ({ point: coords[i], index, toggled }))
+            .filter(({ point }) => (point !== null));
 
-        const markers = this.markers_group.selectAll('circle').data(data, (d) => d.index);
+        const markers = this.markers_group.selectAll('circle').data(active_participants, (d) => d.index);
 
         // update selection ==> we slowly move the points
         markers.transition()
-            .duration(speed)
+            .duration(duration)
             .attr({
-                cx: (d) => d.data[0],
-                cy: (d) => d.data[1],
+                cx: (d) => d.point[0],
+                cy: (d) => d.point[1],
                 opacity: 1.0
             });
 
@@ -39,8 +39,8 @@ class MarkerLayer {
             .append('circle')
             .attr({
                 r: radius,
-                cx: (d) => d.data[0],
-                cy: (d) => d.data[1],
+                cx: (d) => d.point[0],
+                cy: (d) => d.point[1],
                 opacity: 0.,
                 'fill-opacity': 0.,
                 stroke: (d) => (d.toggled ? toggled_color : color)
@@ -51,12 +51,12 @@ class MarkerLayer {
                 d3.select(this).attr('stroke', toggled ? toggled_color : color);
             })
             .transition()
-            .duration(speed)
+            .duration(duration)
             .attr('opacity', 1.);
 
         markers.exit()
             .transition()
-            .duration(speed)
+            .duration(duration)
             .attr('opacity', 0.)
             .remove();
     }
