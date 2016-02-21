@@ -31,6 +31,8 @@ class Controls extends EventEmitter {
 
     render(frame_number) {
 
+        this.currentframe = frame_number;
+
         this.elem.select('input')
             .attr('disabled', null)
             .property('value', frame_number);
