@@ -13,7 +13,7 @@ import VideoController from './VideoController'
 import d3 from "d3";
 
 // initialize the svg element
-const app_elem = d3.select('#app');
+const app_elem = d3.select('#layers');
 const svg = app_elem.append('svg')
     .attr('width', String(width) + 'px')
     .attr('height', String(height) + 'px');

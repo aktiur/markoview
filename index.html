@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>MarkoView</title>
     <style>
-        #app {
+        #layers {
             text-align: center;
         }
 
@@ -12,7 +12,7 @@
             text-align: center;
         }
 
-        #content, #video, #app {
+        #content, #video, #layers {
             height: 576px;
             width: 720px;
         }
@@ -22,35 +22,52 @@
             margin: 2em auto;
         }
 
-        #video, #app {
+        #video, #layers {
             position: absolute;
             top: 0;
             left: 0;
         }
 
-        #app {
-            z-index: 300000;
+        #layers {
+            z-index: 300;
         }
 
         .controls input {
             width: 3em;
             text-align: right;
         }
+
+        .main {
+            float: left;
+            width: 80%;
+        }
+
+        .sidebar {
+            float: left;
+            width: 20%;
+        }
     </style>
 </head>
 <body>
 <div>
-    <div id="content">
-        <div id="video">
-            <video preload="auto" src="data/saveurspalais.webm"></video>
+    <div class="main">
+        <div id="content">
+            <div id="video">
+                <video preload="auto" src="data/saveurspalais.webm"></video>
+            </div>
+            <div id="layers"></div>
         </div>
-        <div id="app"></div>
+        <div class="controls">
+            <button name="Previous" disabled="disabled">&lt;&lt;</button>
+            <input title="Frame number" type="number" min="1" disabled="disabled">
+            / <span class="total">???</span>
+            <button name="Next" disabled="disabled">&gt;&gt;</button>
+        </div>
     </div>
-    <div class="controls">
-        <button name="Previous" disabled="disabled">&lt;&lt;</button>
-        <input title="Frame number" type="number" min="1" disabled="disabled">
-        / <span class="total">???</span>
-        <button name="Next" disabled="disabled">&gt;&gt;</button>
+    <div class="sidebar">
+        <select id="mode">
+            <option value="toggled">Toggled</option>
+        </select>
     </div>
 </div>
 <script src="assets/bundle.js"></script>

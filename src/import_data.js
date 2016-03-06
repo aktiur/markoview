@@ -24,7 +24,7 @@ function pairs_or_null(array) {
 
 export function import_eyetracking_data(file) {
     return new Promise((resolve, reject) => {
-        d3.text(file, (error, content) => {
+        d3.text(file, function(error, content) {
             if (error) {
                 reject(error);
             } else {
@@ -34,9 +34,8 @@ export function import_eyetracking_data(file) {
                 // dsv.parseRows take an accessor function as a second argument
                 // this one verifies if elem is 'NaN' or negative and sets its value to null in these cases
                 // in the standard case it just converts it to float
-                const accessor = (row) => pairs_or_null(
-                    row.slice(0, -3)
-                        .map((elem) => ((elem === 'NaN' || +elem < 0) ? null : +elem))
+                const accessor = row => pairs_or_null(
+                    row.slice(0, -3).map((elem) => ((elem === 'NaN' || +elem < 0) ? null : +elem))
                 );
 
                 resolve(parser.parseRows(content, accessor));

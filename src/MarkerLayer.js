@@ -17,6 +17,7 @@ class MarkerLayer {
     }
 
     render(frame_number, duration = 200) {
+        //
         const self = this;
         const i = frame_number - 1;
 
@@ -47,7 +48,6 @@ class MarkerLayer {
             })
             .on('click', function(d) {
                 const toggled = self.content[d.index].toggled = !self.content[d.index].toggled;
-                console.log('gestionnaire ' + toggled);
                 d3.select(this).attr('stroke', toggled ? toggled_color : color);
             })
             .transition()
